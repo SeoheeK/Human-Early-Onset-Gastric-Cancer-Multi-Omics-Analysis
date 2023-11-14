@@ -7,8 +7,11 @@ library(circlize)
 name <- "RHOA"
 
 # input data
-data <- read.csv(paste0("C:/Users/smj97/Desktop/final/", name, "_heatmapinput.csv"))
-anno <- read.csv(paste0("C:/Users/smj97/Desktop/final/", name, "_patient_meta.csv"))
+file_path1=paste0("C:/Users/", name, "_heatmapinput.csv")
+file_path2=paste0("C:/Users/", name, "_patient_meta.csv")
+
+data <- read.csv(file_path1)
+anno <- read.csv(file_path2)
 
 # annotation bar
 ha <- HeatmapAnnotation(df = anno, col = list(
@@ -32,6 +35,7 @@ heatmap1 <- Heatmap(
 )
 
 # save figure
-png(paste0("C:/Users/smj97/Desktop/", name, ".png"), width = 400, height = 800)
+file_path=paste0("C:/Users/", name, ".png")
+png(file_path, width = 400, height = 800)
 plot(heatmap1)
 dev.off()
