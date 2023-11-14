@@ -1,3 +1,5 @@
+
+
 # WES-Preprocessing
 
 The exome sequencing data were aligned to the human GRCh38 reference genome using Bowtie 2 (v2.5.2)6). Low-quality bases and PCR duplicates were removed. Realignment and recalibration were performed using GATK4 (v4.4.0.0)7). SNV candidates were identified in both tumor and control samples. The MutSigCV (v1.41)8) tool was utilized to discover significantly mutated genes among somatic SNVs in the 76 microsatellite-stable EOGC patients.
@@ -12,6 +14,9 @@ The .sra files were subjected to fasterq-dump using SRA Toolkit (v3.0.7). Trimmi
 
 All data were processed by PE-MMR for precursor mass correction and refinement. Resultant MS/MS data were identified as peptide-spectrum matches (PSMs) by MS-GF+ search engine (v.9387) at composite database (DB) of UniProt DB and specific modifications depending on the type of proteome.
 
+
+# Citations
+The preprocessing pipelines are based on ngs-pipeline(https://github.com/tjbencomo/ngs-pipeline) by tjbencomo, and laidd_snakemake_rnaseq(https://github.com/bynjh007/laidd_snakemake_rnaseq) by bynjh007. If you use those-pipeline, please use each citations.md.
 
 ### Reference
 
