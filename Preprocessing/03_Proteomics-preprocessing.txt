@@ -1,0 +1,677 @@
+# 출처: 현도영 박사 (현소속: 서울대학교 황대희 교수 연구실)
+=================================================================================
+0. MSConvert
+=================================================================================
+% .raw to .mzML conversion은 윈도우 MSConvert으로 수행 (ver. 3.0.1908 64-bit).
+% .mzML to .mzXML, .mgf conversion은 linux MSConvert으로 수행 (ver. 3.0.22010).
+
+
+##### template bash file #####
+
+#!/bin/bash
+
+###slurm setting.
+#SBATCH -J msconvert_global_FILE_NAME
+#SBATCH -p node8
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -o msconvert_global_FILE_NAME.%j.out
+#SBATCH -e msconvert_global_FILE_NAME.%j.err
+
+/home/sbm/doyoungh/Software/ProteoWizard/msconvert MZML_DIR.mzML --mzXML --32 --filter "zeroSamples removeExtra" -o OUT_DIR
+/home/sbm/doyoungh/Software/ProteoWizard/msconvert MZML_DIR.mzML --mgf --32 --filter "zeroSamples removeExtra" -o OUT_DIR
+
+date;
+
+
+##### bash generation file #####
+
+#!/bin/bash
+
+TEMPLATE_SCRIPT=./msconvert_global_temp.sh;
+
+for i in /data/Storage_DAS02/home2/menteeB/global_proteomics/raw_data/*.mzML; do
+filename=$(basename $i .mzML)
+
+cp ${TEMPLATE_SCRIPT} ./msconvert_global/;
+mv ./msconvert_global/msconvert_global_temp.sh ./msconvert_global/${filename}.sh;
+
+sed -i "s|FILE_NAME|${filename}|g" ./msconvert_global/${filename}.sh;
+sed -i "s|OUT_DIR|/data/Storage_DAS02/home2/menteeB/global_proteomics/mzXML_mgf|g" ./msconvert_global/${filename}.sh;
+sed -i "s|MZML_DIR|/data/Storage_DAS02/home2/menteeB/global_proteomics/raw_data/${filename}|g" ./msconvert_global/${filename}.sh;
+
+done
+
+
+
+
+=================================================================================
+1. RAPID 
+=================================================================================
+
+
+##### RAPID Parameter file (TXT) #####
+
+File::DataType                          MZXML
+<File::DataList>
+        MZXML_FILE_PATH
+
+PeakPicking::SNRThreshold               0.0
+PeakPicking::BackgroundRatio            0.1
+PeakPicking::FitType                    QUADRATIC
+
+DeconvPep::MaxCharge                    10
+DeconvPep::ThScore                      0.0
+DeconvPep::OutputFormat                 CSV
+DeconvPep::ResultOrder                  ABUNDANCE
+DeconvPep::Target                       MS      
+DeconvPep::Truncated                    NO
+
+AdvDeconv::MaxAbundancePeak             3
+AdvDeconv::ScanNoModifier               0
+AdvDeconv::MaxMissPeak                  5
+AdvDeconv::MassErr                      1.0E-05
+
+
+
+
+##### Script copy (RAPID Parameter) #####
+
+#!/bin/bash
+
+PARAM_DIR=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params;
+TEMPLATE_SCRIPT=${PARAM_DIR}/211119_rapid_params_temp.txt;
+for MZXML_PATH in `cat ./mzXML_list.txt`;
+do
+MZXML_FILE_NAME=`echo ${MZXML_PATH} | cut -d "/" -f8`;
+PARAM_FILE_NAME=`echo ${MZXML_FILE_NAME} | cut -d "." -f1`;
+
+cp ${TEMPLATE_SCRIPT} ${PARAM_DIR}/01_RAPID_params/;
+mv ${PARAM_DIR}/01_RAPID_params/211119_rapid_params_temp.txt ${PARAM_DIR}/01_RAPID_params/params_${PARAM_FILE_NAME}.txt;
+
+sed -i "s|MZXML_FILE_PATH|${MZXML_PATH}|g" ${PARAM_DIR}/01_RAPID_params/params_${PARAM_FILE_NAME}.txt
+done
+
+
+
+
+##### template bash file #####
+
+#!/bin/bash
+
+###slurm setting.
+#SBATCH -J RAPID_FILE_NAME
+#SBATCH -p node8
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -o RAPID_FILE_NAME.%j.out
+#SBATCH -e RAPID_FILE_NAME.%j.err
+
+
+source activate /data/Storage_DAS02/home2/menteeB/.conda/envs/PDAC_global ; date; echo "Log-in Done."
+echo $(python --version)
+
+cd MZXML_PATH;
+
+RAPID_PATH=/home/software/PEMMR/lib/jRAPID_v1.14.jar;
+PARAMETER_FILE=PARAMETER_PATH;
+
+echo "mzXML Path: MZXML_PATH";
+echo "RAPID File: ${RAPID_PATH}";
+echo "Parameter File: ${PARAMETER_FILE}";
+
+###command line.
+date;
+java -jar ${RAPID_PATH} ${PARAMETER_FILE}
+date;
+
+
+
+
+##### Script copy (RAPID Shell) #####
+
+#!/bin/bash
+
+TEMPLATE_SCRIPT=./01_rapid_temp.sh;
+
+for MZXML_PATH in `cat ./mzXML_list.txt`;
+do
+
+MZXML_FILE_NAME=`echo ${MZXML_PATH} | cut -d "/" -f8`;
+BASH_FILE_NAME=`echo ${MZXML_FILE_NAME} | cut -d "." -f1`;
+PARAMETER_FILE=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params/01_RAPID_params/params_${BASH_FILE_NAME}.txt;
+MZXML_DIR=`echo ${MZXML_PATH} | sed "s|${MZXML_FILE_NAME}||"`;
+
+cp ${TEMPLATE_SCRIPT} ./01_rapid/;
+mv ./01_rapid/01_rapid_temp.sh ./01_rapid/${BASH_FILE_NAME}.sh;
+
+sed -i "s|MZXML_PATH|${MZXML_DIR}|g" ./01_rapid/${BASH_FILE_NAME}.sh;
+sed -i "s|FILE_NAME|${BASH_FILE_NAME}|g" ./01_rapid/${BASH_FILE_NAME}.sh;
+sed -i "s|PARAMETER_PATH|${PARAMETER_FILE}|g" ./01_rapid/${BASH_FILE_NAME}.sh;
+done
+
+for i in *.sh; do sbatch ${i}; done
+
+
+
+
+=================================================================================
+2. PEMMR 
+=================================================================================
+% TPP 설치 (MzXML2Search 등 포함)
+conda install -c bioconda tpp
+
+% Pseudo raw file 생성.
+cat pseudo_raw_list.txt | xargs -n1 -i touch {}
+
+
+##### PEMMR Parameter file (TXT) #####
+
+#################### External Programs ###################
+RAPID=/home/software/PEMMR/lib/jRAPID_v1.14.jar
+MSCONVERT=C:/Program Files (x86)/ProteoWizard 3.0.1908 64-bit/msconvert.exe
+MZXML2SEARCH=/data/Storage_DAS02/home2/menteeB/.conda/envs/PDAC_global/bin/MzXML2Search
+
+################## UMC Create ##################
+RAW_FILE_URL=PSEUDO_RAW_FILE
+UMC_ALGORITHM=1
+SCAN_COUNT=2
+HOLE_COUNT=5
+MASS_TOLERANCE=10
+MIN_MASS=0
+MIN_INTENSITY=0
+
+################## Spectrum Filtering ##################
+SCAN_RANGE=5
+UMC_LINK_TOLERANCE=10
+
+
+
+
+##### Script copy (PEMMR Parameter) #####
+
+#!/bin/bash
+
+PARAM_DIR=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params;
+TEMPLATE_SCRIPT=${PARAM_DIR}/211119_pemmr_params_temp_rev.txt;
+
+for RAW_PATH in `cat ./pseudo_raw_list.txt`;
+do
+
+RAW_FILE_NAME=`echo ${RAW_PATH} | cut -d "/" -f8`;
+PARAM_FILE_NAME=`echo ${RAW_FILE_NAME} | cut -d "." -f1`;
+
+cp ${TEMPLATE_SCRIPT} ${PARAM_DIR}/02_PEMMR_params/;
+mv ${PARAM_DIR}/02_PEMMR_params/211119_pemmr_params_temp_rev.txt ${PARAM_DIR}/02_PEMMR_params/params_${PARAM_FILE_NAME}.txt
+
+sed -i "s|PSEUDO_RAW_FILE|${RAW_PATH}|g" ${PARAM_DIR}/02_PEMMR_params/params_${PARAM_FILE_NAME}.txt
+
+done
+
+
+
+
+##### template bash file #####
+
+#!/bin/bash
+
+#SBATCH -J PEMMR_FILE_NAME
+#SBATCH -p node8
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -o PEMMR_FILE_NAME.%j.out
+#SBATCH -e PEMMR_FILE_NAME.%j.err
+
+source activate /data/Storage_DAS02/home2/menteeB/.conda/envs/PDAC_global ; date; echo "Log-in Done."
+echo $(python --version);
+
+PEMMR_HOME=/home/software/PEMMR;
+PARAMETER_FILE=PARAMETER_PATH;
+export CLASSPATH=${PEMMR_HOME}/lib/pemmr_sa_1.1.jar:${PEMMR_HOME}/lib/log4j:${PEMMR_HOME}/lib/log4j/log4j-1.2.15.jar
+
+echo "PE-MMR directory: ${PEMMR_HOME}";
+echo "Parameter File directory: ${PARAMETER_FILE}";
+
+date;
+java pemmr_sa.PEMMRExec ${PARAMETER_FILE}
+date;
+
+
+
+
+##### bash generation file #####
+
+#!/bin/bash
+
+TEMPLATE_SCRIPT=./02_pemmr_temp.sh;
+
+for RAW_PATH in `cat ./pseudo_raw_list.txt`;
+do
+
+RAW_NAME=`echo ${RAW_PATH} | cut -d "/" -f8`;
+BASH_FILE_NAME=`echo ${RAW_NAME} | cut -d "." -f1`;
+PARAMETER_FILE_NAME=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params/02_PEMMR_params/params_${BASH_FILE_NAME}.txt;
+
+cp ${TEMPLATE_SCRIPT} ./02_pemmr;
+mv ./02_pemmr/02_pemmr_temp.sh ./02_pemmr/${BASH_FILE_NAME}.sh;
+
+sed -i "s|FILE_NAME|${BASH_FILE_NAME}|g" ./02_pemmr/${BASH_FILE_NAME}.sh;
+sed -i "s|PARAMETER_PATH|${PARAMETER_FILE_NAME}|g" ./02_pemmr/${BASH_FILE_NAME}.sh;
+
+done
+
+
+for i in *.sh; do sbatch ${i}; done
+
+
+# _PEMMR.mgf 파일만 따로 모아놓기 (/data/Storage_DAS02/home2/menteeB/global_proteomics/PEMMR_mgf)
+
+
+
+
+=================================================================================
+3. MS-GF (v20210322)
+=================================================================================
+# uniprot-Uniprot data-download latest release-UniprotKB-Reviewed(Swiss-Prot)-fasta 에서 uniprot db 받고, contam과 merge
+# e.g. cat Uniprot-taxonomy_9606.fasta Only_with_Contam.fasta > Uniprot_9606_with_contam.fasta
+
+
+*** StaticMod: TMT에서 collision 이후에 peptide에 붙어있는 reporter ion의 기본 m/z 값.
+
+##### parameter file #####
+
+###FILE_NAME MS-GF+ PARAMETR FILE###
+
+#Parent mass tolerance
+PrecursorMassTolerance=10ppm
+
+
+#Max Number of Modifications per peptide
+NumMods=3
+
+
+#Modifications (see below for examples)
+StaticMod=C2H3N1O1, C, fix, any, Carbamidomethyl        # Fixed Carbamidomethyl C
+StaticMod=229.162932,*,fix,N-term,TMT                   # 10-plex TMT
+StaticMod=229.162932,K,fix,any,TMT                      # 10-plex TMT     
+
+DynamicMod=O1, M, opt, any, Oxidation                   # Oxidized methionine
+
+
+#Fragmentation Method
+#  0 means as written in the spectrum or CID if no info (Default)
+#  1 means CID
+#  2 means ETD
+#  3 means HCD
+#  4 means Merge spectra from the same precursor (e.g. CID/ETD pairs, CID/HCD/ETD triplets)
+FragmentationMethodID=3
+
+
+#Instrument ID
+#  0 means Low-res LCQ/LTQ (Default for CID and ETD); use InstrumentID=0 if analyzing a dataset with low-res CID and high-res HCD spectra
+#  1 means High-res LTQ (Default for HCD; also appropriate for high res CID); use InstrumentID=1 for Orbitrap, Lumos, and QEHFX instruments
+#  2 means TOF
+#  3 means Q-Exactive
+InstrumentID=3
+
+
+#Enzyme ID
+EnzymeID=1
+
+
+#Protocol
+#0: Automatic (Default), 1: Phosphorylation, 2: iTRAQ, 3: iTRAQPhospho, 4: TMT, 5: Standard
+ProtocolID=4
+
+
+#Isotope error range
+IsotopeErrorRange=0,0
+
+
+#Number of tolerable termini
+NTT=1
+
+
+#Target/Decoy search mode
+TDA=1
+
+
+#Number of Threads (by default, uses all available cores)
+NumThreads=4
+
+
+#Maximum peptide length to consider
+MaxPepLength=40
+
+
+
+
+##### template bash file #####
+
+#!/bin/bash
+
+###slurm setting.
+#SBATCH -J MSGF_FILE_NAME
+#SBATCH -p node8
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -o MSGF_FILE_NAME.%j.out
+#SBATCH -e MSGF_FILE_NAME.%j.err
+#SBATCH -t 0
+
+source activate /data/Storage_DAS02/home2/menteeB/.conda/envs/PDAC_global ; date; echo "Log-in Done."
+
+MSGF_PATH=/home/software/MSGFPlus_v20210322/MSGFPlus.jar;
+DATABASE_PATH=/data/Storage_DAS02/home2/menteeB/global_proteomics/uniprot/20211120_uniprot_9606_with_contam.fasta;
+MGF_FILE=MGF_PATH;
+PARAMETER_FILE=PARAMETER_PATH;
+OUT_DIR=OUTPUT_DIR;
+
+date;
+java -Xmx25G -jar ${MSGF_PATH} -s ${MGF_FILE} -d ${DATABASE_PATH} -maxMissedCleavages 2 -conf ${PARAMETER_FILE} -o ${OUT_DIR}
+date;
+
+
+
+
+##### bash generation file #####
+
+#!/bin/bash
+
+TEMPLATE_SCRIPT=./03_msgfplus_temp.sh;
+
+for MGF_PATH in `cat ./mgf_list.txt`;
+do
+
+MGF_NAME=`echo ${MGF_PATH} | cut -d "/" -f8`;
+BASH_FILE_NAME=`echo ${MGF_NAME} | cut -d "." -f1`;
+PARAMETER_FILE_NAME=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params/03_MSGF_params/msgfplus_params_10.txt;
+
+OUTPUT_DIR=`echo ${MGF_PATH} | sed "s|PEMMR_mgf|msgfplus|g"`;
+OUTPUT_DIR=`echo ${OUTPUT_DIR} | sed "s|${MGF_NAME}|${BASH_FILE_NAME}_PSMs.mzid|g"`;
+
+cp ${TEMPLATE_SCRIPT} ./03_msgfplus/;
+mv ./03_msgfplus/03_msgfplus_temp.sh ./03_msgfplus/${BASH_FILE_NAME}.sh;
+
+sed -i "s|FILE_NAME|${BASH_FILE_NAME}|g" ./03_msgfplus/${BASH_FILE_NAME}.sh;
+sed -i "s|MGF_PATH|${MGF_PATH}|g" ./03_msgfplus/${BASH_FILE_NAME}.sh;
+sed -i "s|PARAMETER_PATH|${PARAMETER_FILE_NAME}|g" ./03_msgfplus/${BASH_FILE_NAME}.sh;
+sed -i "s|OUTPUT_DIR|${OUTPUT_DIR}|g" ./03_msgfplus/${BASH_FILE_NAME}.sh;
+
+done
+
+
+for i in *.sh; do sbatch ${i}; done
+
+
+
+
+=================================================================================
+4. ResultMerger
+=================================================================================
+% MSGF mzid file --> tsv file
+% Due to version of php, used master node (ver. 5.4.16)
+php /home/software/Proteomics_tools/ResultMerger.php /data/Storage_DAS02/home2/menteeB/global_proteomics/msgfplus
+
+
+
+
+=================================================================================
+5. ReporterIonChecker
+=================================================================================
+*composition matrix needed
+
+##### template bash file #####
+
+#!/bin/bash
+
+###slurm setting.
+#SBATCH -J ReportIon_FILE_NAME
+#SBATCH -p node8
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -o ReportIon_FILE_NAME.%j.out
+#SBATCH -e ReportIon_FILE_NAME.%j.err
+#SBATCH -t 0
+
+source activate /data/Storage_DAS02/home2/menteeB/.conda/envs/PDAC_global ; date; echo "Log-in Done."
+
+ReportIon=/home/software/Proteomics_tools/MyReportIonChecker_General_1.0.jar
+MSMS_Tolerance=0.005
+Start_ScanNum=1
+End_ScanNum=150000
+date;
+
+java -Xmx10G -jar ${ReportIon} COMPOSITION_PATH MGF_FILE ${MSMS_Tolerance} ${Start_ScanNum} ${End_ScanNum} LABEL_NUM
+
+date;
+
+
+
+
+##### bash generation file #####
+
+#!/bin/bash
+
+TEMPLATE_SCRIPT=./05_ReportIon_temp.sh;
+COMPOSITION_PATH=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params/Composition_TMT10.txt;
+LABEL_NUM=10;
+
+for MGF_FILE in `cat ./pemmr_mgf.txt`;
+do
+
+DIR_NAME=`echo ${MGF_FILE} | cut -d "/" -f8`;
+BASH_FILE_NAME=`echo ${DIR_NAME} | cut -d "." -f1`;
+
+
+cp ${TEMPLATE_SCRIPT} ./05_ReportIon/;
+mv ./05_ReportIon/05_ReportIon_temp.sh ./05_ReportIon/${BASH_FILE_NAME}.sh;
+
+sed -i "s|FILE_NAME|${BASH_FILE_NAME}|g" ./05_ReportIon/${BASH_FILE_NAME}.sh;
+sed -i "s|MGF_FILE|${MGF_FILE}|g" ./05_ReportIon/${BASH_FILE_NAME}.sh;
+sed -i "s|COMPOSITION_PATH|${COMPOSITION_PATH}|g" ./05_ReportIon/${BASH_FILE_NAME}.sh;
+sed -i "s|LABEL_NUM|${LABEL_NUM}|g" ./05_ReportIon/${BASH_FILE_NAME}.sh;
+
+done
+
+
+for i in *.sh; do sbatch ${i}; done
+
+
+
+
+=================================================================================
+6. MatrixCorrector
+=================================================================================
+
+% One run for all files
+java -Xmx10G -jar /home/software/Proteomics_tools/MatrixCorrector_General_1.2.jar /data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/00_params/Composition_TMT10.txt /data/Storage_DAS02/home2/menteeB/global_proteomics/PEMMR_mgf 2 11
+
+
+
+
+=================================================================================
+7. Quantile normalization
+=================================================================================
+* 3 steps
+1. between channels
+2. between fractions (optional: only when mid-pH + when fractions are non-contiguously concatenated to divide peptides into equal amounts)
+3. between datasets
+
+
+cd("/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/07_Quantification")
+
+% 1) Between channel normalization (MATLAB R2021a)
+dir_list=readtext('/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/07_Quantification/dir_list.txt',' ','','');
+startRowNum=2;
+parfor i=1:size(dir_list,1)
+    QuantileNormalizerMulti(dir_list{i},startRowNum);
+end
+
+
+% 2) Between channel normalization after merging fractions (MATLAB R2021a)
+parfor i=1:size(dir_list,1)
+    
+    fileList = dir(fullfile(dir_list{i}, '*MatrixCorrection_QuantileNorm.txt'));
+    fileNames={fileList.name}';
+    tm_merged_FN=[];
+    tm_scan_name=[];
+    
+    for j=1:length(fileNames)
+        
+        fprintf('%s \t %d FN merged\n',dir_list{i},j)
+        tm_data=readcell(strcat(dir_list{i},"/",fileNames{j}));
+        tm_intensity = cell2mat(tm_data(startRowNum:end, 2:end));
+        tm_scan_name=[tm_scan_name;strcat(repmat(extractBefore(fileNames{j},".txt"),size(tm_intensity,1),1),"|",cellfun(@num2str, tm_data(startRowNum:end,1),'UniformOutput', false))];
+        tm_merged_FN=[tm_merged_FN;tm_intensity];
+        
+    end
+    
+    % quantile normalization
+    tm_merged_FN_qnorm=quantilenorm(tm_merged_FN);
+
+    % write file
+    fprintf('writing file %s \n',dir_list{i},j)
+    header=tm_data(1,:);
+    merged_FN_qnorm_new=cellstr([header;[tm_scan_name,num2cell(tm_merged_FN_qnorm)]]);
+    merged_FN_qnorm_new(cellfun(@isempty,merged_FN_qnorm_new))={'NaN'};
+    merged_FN_qnorm_new=merged_FN_qnorm_new';
+    tm_set=split(dir_list{i},'/');
+    fid=fopen(strcat(dir_list{i},"/",tm_set{7,1},"_merged_FN_Normal.txt"),'w');
+    fprintf(fid, strcat('%s', repmat('\t%s',1,size(tm_merged_FN_qnorm,2)),'\n'),merged_FN_qnorm_new{:});
+    fclose('all');
+end
+
+
+% 3) Between dataset normalization (MATLAB R2021a) - Intensity normalization
+datasetNames=cell(length(dir_list),1);
+for i=1:length(dir_list)
+    tm_set=split(dir_list{i},'/');
+    datasetNames{i,1}=strcat(dir_list{i},"/",tm_set{7,1},"_merged_FN_Normal.txt");
+end
+
+tm_dataset_size=cell(1,length(datasetNames));
+tm_merged_dataset=cell(1,length(datasetNames));
+tm_index=cell(1,length(datasetNames));
+
+parfor i=1:length(datasetNames)
+        
+    fprintf('%s  merged\n',datasetNames{i})
+    tm_data=readcell(datasetNames{i});
+    tm_intensity = cell2mat(tm_data(startRowNum:end, 2:end));
+    tm_index{1,i}=tm_data(startRowNum:end,1);
+    tm_merged_dataset{1,i}=tm_intensity(:);
+    tm_dataset_size{1,i}=size(tm_intensity);
+
+end
+
+% Quantile normalization
+merged_dataset=NaN(max(cellfun(@length,tm_merged_dataset)),length(datasetNames));    
+for i=1:length(datasetNames)
+    merged_dataset(1:length(tm_merged_dataset{1,i}),i)=tm_merged_dataset{1,i};
+end
+tm_merged_dataset_qnorm=quantilenorm(merged_dataset);
+    
+% back to its original shape 
+tm_data=readcell(datasetNames{1});
+header=tm_data(1,:);
+ 
+for i=1:length(datasetNames)
+    fprintf('writing file %s \n',strcat(extractBefore(datasetNames{i,1},'.txt'),"_Intensity_DatasetNormalized.txt"))
+    tm=tm_merged_dataset_qnorm(1:length(tm_merged_dataset{1,i}),i);
+    dataset_qnorm=reshape(tm,tm_dataset_size{1,i}(1,1),tm_dataset_size{1,i}(1,2));
+    dataset_qnorm_new=[header;[tm_index{1,i},num2cell(dataset_qnorm)]];
+    dataset_qnorm_new=dataset_qnorm_new';
+    fid=fopen(strcat(extractBefore(datasetNames{i,1},'.txt'),"_Intensity_DatasetNormalized.txt"),'w');
+    fprintf(fid, strcat('%s', repmat('\t%s',1,size(dataset_qnorm,2)),'\n'),dataset_qnorm_new{:});
+    fclose('all');
+end
+
+cd /data/Storage_DAS02/home2/menteeB/global_proteomics/quant_all_sets
+for i in {1..21};do
+mkdir Set${i};
+done
+
+
+
+
+=================================================================================
+8. PIPRegister
+=================================================================================
+
+% One run for all files
+java -Xmx10G -jar /home/software/PIPRegister/MyPIPRegisterForFileIsolation.jar 0.6 /data/Storage_DAS02/home2/menteeB/global_proteomics/mzXML_mgf /data/Storage_DAS02/home2/menteeB/global_proteomics/mzXML_mgf
+
+
+
+
+=================================================================================
+9. PSMBuilder
+=================================================================================
+% Install python packages
+pip3 install glob2
+pip3 install pandas
+
+
+##### template bash file #####
+#!/bin/bash
+
+###slurm setting.
+#SBATCH -J PSMbuilder_FILE_NAME
+#SBATCH -p node8
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -o PSMbuilder_FILE_NAME.%j.out
+#SBATCH -e PSMbuilder_FILE_NAME.%j.err
+#SBATCH -t 0
+
+source activate /data/Storage_DAS02/home2/menteeB/.conda/envs/PDAC_global ; date; echo "Log-in Done."
+
+PSMbuilder=/data/Storage_DAS02/home2/menteeB/global_proteomics/shell_script/09_PSMbuilder/211015_PSMbuilder_Intensity.py
+PIP_dir=PIP_DIRECTORY
+MSGF_dir=MSGF_DIRECTORY
+quant_dir=QUANT_DIR
+output_dir=OUT_DIR
+date;
+
+python ${PSMbuilder} -p ${PIP_dir} -m ${MSGF_dir} -q ${quant_dir} -o ${output_dir}
+
+date;
+
+
+
+##### bash generation file #####
+#!/bin/bash
+
+TEMPLATE_SCRIPT=./PSMBuilder_Intensity_temp.sh;
+
+for i in {1..21};
+do
+
+BASH_FILE_NAME=Set${i};
+PIP_dir=`sed -n ${i}p ./PSMBuilder_pip_dir_list.txt`         
+msgf_dir=`sed -n ${i}p ./PSMBuilder_msgf_dir_list.txt`
+quant_dir=/data/Storage_DAS02/home2/menteeB/global_proteomics/quant_all_sets/Set${i}
+
+cp ${TEMPLATE_SCRIPT} ./shell_script/;
+mv ./shell_script/PSMBuilder_Intensity_temp.sh ./shell_script/${BASH_FILE_NAME}.sh;
+
+sed -i "s|FILE_NAME|${BASH_FILE_NAME}|g" ./shell_script/${BASH_FILE_NAME}.sh;
+sed -i "s|PIP_DIRECTORY|${PIP_dir}|g" ./shell_script/${BASH_FILE_NAME}.sh;
+sed -i "s|MSGF_DIRECTORY|${msgf_dir}|g" ./shell_script/${BASH_FILE_NAME}.sh;
+sed -i "s|QUANT_DIR|${quant_dir}|g" ./shell_script/${BASH_FILE_NAME}.sh;
+sed -i "s|OUT_DIR|${quant_dir}|g" ./shell_script/${BASH_FILE_NAME}.sh;
+
+done
+
+for i in *.sh; do sbatch ${i}; done
+
+
+
+% Extract Peptide-Protein link
+for i in {1..21};
+do
+awk -F "\t" '$3 >= 70 {print $8"\t"$9}' /data/Storage_DAS02/home2/menteeB/global_proteomics/quant_all_sets/Set${i}/Set${i}_Datasetnorm_QuantTable_All_PSMs_Intensity.txt > /data/Storage_DAS02/home2/menteeB/global_proteomics/quant_all_sets/Set${i}/Set${i}_Link.txt;
+done
+
+
