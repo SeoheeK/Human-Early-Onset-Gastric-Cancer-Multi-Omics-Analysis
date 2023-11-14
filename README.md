@@ -8,7 +8,7 @@
 
 ## Project Purpose
 ### 01 Pre-processing of WES, RNA-seq, proteomics data
-  The primary objective of this project is to download datasets of whole exome sequencing, mRNA sequencing, and proteomics data of 80 early-onset gastric cancer patients available in the publication5) and process them into analytically usable data.
+  The primary objective of this project is to download datasets of whole exome sequencing, mRNA sequencing, and proteomics data of 80 early-onset gastric cancer patients available in the publication and process them into analytically usable data.
 
 ### 02 Conducting Proteogenomic analyses
   Perform proteogenomic analysis including correlation between each type of data and clustering using the processed data, aiming to discover significant molecular signatures.

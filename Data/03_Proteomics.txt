@@ -1,0 +1,40 @@
+#-------------------------------------------------------------------------------------------------
+# PDC-Public 설치(https://github.com/esacinc/PDC-Public/tree/master/tools/downloadPDCData/Python)
+#-------------------------------------------------------------------------------------------------
+
+wget https://raw.githubusercontent.com/esacinc/PDC-Public/master/tools/downloadPDCData/Python/downloadPDCData.py
+
+#-------------------------------------------------------------------------------------------------
+# PDC 파일 가져오기 (https://pdc.cancer.gov/pdc/browse/filters/pdc_study_id:PDC000214%7CPDC000215%7CPDC000216)
+#-------------------------------------------------------------------------------------------------
+
+wget -O proteome.csv "https://docs.google.com/spreadsheets/d/1l5vG3N1zcpCVizeCmkybHeqoPp8uFfKrnbrqilx1kXA/gviz/tq?tqx=out:csv"# Sbatch Script Code 작성
+
+#-------------------------------------------------------------------------------------------------
+# prefetch protein.sh 
+#-------------------------------------------------------------------------------------------------
+
+
+
+#-------------------------------------------------------------------------------------------------
+# Sbatch로 file 가져오기
+#-------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+#SBATCH -J prefetch_protein #작업이름
+#SBATCH -p node9 #노드
+#SBATCH -N 1
+#SBATCH -n 2 #몇개씩 돌릴껀가
+#SBATCH -o prefetch_protein.%j.out 
+#SBATCH -e prefetch_protein.%j.err
+
+sratoolkit.3.0.6-ubuntu64/bin/prefetch --option-file filename.txt
+date; 
+
+#-------------------------------------------------------------------------------------------------
+
+# Sbatch 실행
+sbatch prefetch_processing.sh  
+
+# 실행확인코드
+# Submitted batch job 000000

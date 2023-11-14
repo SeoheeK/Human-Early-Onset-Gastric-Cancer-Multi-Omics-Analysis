@@ -1,0 +1,41 @@
+#-------------------------------------------------------------------------------------------------
+# SRA tool kit 설치(https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit)
+#-------------------------------------------------------------------------------------------------
+
+wget --output-document sratoolkit.tar.gz https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-ubuntu64.tar.gz
+
+#-------------------------------------------------------------------------------------------------
+# SRA data download (NCBI> GEO:GSE122401>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE122401> https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA508414&o=acc_s%3Aa)
+#-------------------------------------------------------------------------------------------------
+
+SRA 홈페이지 > PRJNA505380 검색 > Send results to Run selector 클릭 > Accession List 클릭 > SRR_Acc_List.txt > 전체 내용 복사 > 서버에 vi로 파일 생성
+
+
+#-------------------------------------------------------------------------------------------------
+# prefetch WES.sh 
+#-------------------------------------------------------------------------------------------------
+
+
+
+#-------------------------------------------------------------------------------------------------
+# Sbatch로 file 가져오기
+#-------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+#SBATCH -J prefetch_WES #작업이름
+#SBATCH -p node9 #노드
+#SBATCH -N 1
+#SBATCH -n 2 #몇개씩 돌릴껀가
+#SBATCH -o prefetch_WES.%j.out 
+#SBATCH -e prefetch_WES.%j.err
+
+PDC-Public/prefetch --option-file filename.txt
+date; 
+
+#-------------------------------------------------------------------------------------------------
+
+# Sbatch 실행
+sbatch prefetch_processing.sh  
+
+# 실행확인코드
+# Submitted batch job 000000

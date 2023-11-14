@@ -1,9 +1,0 @@
-# PDC-Public
-[REF] https://github.com/esacinc/PDC-Public/tree/master/tools/downloadPDCData/Python
-
-
-## https://pdc.cancer.gov/pdc/browse/filters/pdc_study_id:PDC000214%7CPDC000215%7CPDC000216
-
-wget https://raw.githubusercontent.com/esacinc/PDC-Public/master/tools/downloadPDCData/Python/downloadPDCData.py
-
-wget -O proteome.csv "https://docs.google.com/spreadsheets/d/1l5vG3N1zcpCVizeCmkybHeqoPp8uFfKrnbrqilx1kXA/gviz/tq?tqx=out:csv"
