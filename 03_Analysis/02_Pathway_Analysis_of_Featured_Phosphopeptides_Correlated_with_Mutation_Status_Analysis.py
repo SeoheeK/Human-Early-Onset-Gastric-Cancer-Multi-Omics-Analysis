@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------------------
-# 02_Pathway_Analysis_of_Featured_Phosphopeptides_Correlated_with_Mutation_Status_Analysis
+# 02 Correlation between Somatic Mutations and Phosphopeptides
 #-------------------------------------------------------------------------------------------------
 
 """

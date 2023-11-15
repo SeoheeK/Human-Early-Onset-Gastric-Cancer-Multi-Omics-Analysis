@@ -24,12 +24,13 @@ SRR_Acc_List.txt > 전체 내용 복사 > 서버에 vi로 파일 생성
 #SBATCH -o prefetch_WES.%j.out 
 #SBATCH -e prefetch_WES.%j.err
 
-PDC-Public/prefetch --option-file filename.txt
+sratoolkit.3.0.6-ubuntu64/bin/prefetch --option-file filename.txt
 date; 
 
 #-------------------------------------------------------------------------------------------------
-
 # Sbatch 실행
+#-------------------------------------------------------------------------------------------------
+
 sbatch prefetch_processing.sh  
 
 # 실행확인코드
