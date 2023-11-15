@@ -1,4 +1,4 @@
-# Pre-processing
+# Preprocessing
 
 ## WES-Preprocessing
 
@@ -18,12 +18,12 @@ If you want more detailed information about the preprocessing steps, please refe
 
 ### Reference
 
-(1) Langmead B, Salzberg S. Fast gapped-read alignment with Bowtie 2. Nature Methods. 2012;9:357-359.
-(2) McKenna A, Hanna M, Ba5nks E et al. The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation D3NA sequencing data. Genome Res. 2010;20:1297-303.
-(3) Lawrence, M., Stojanov, P., Polak, P. et al. Mutational heterogeneity in cancer and the search for new cancer-associated genes. Nature. 2013;499:14–218.
-(4)  Bolger AM, Lohse M, Usadel B. Trimmomatic: a flexible trimmer for Illumina sequence data. Bioinformatics. 2014;30(15):2114-2120.
-(5) Dobin A, Davis CA, Schlesinger F, et al. STAR: ultrafast universal RNA-seq aligner. Bioinformatics. 2013;29(1):15-21.
-(6) Li B, Dewey CN. RSEM: accurate transcript quantification from RNA-Seq data with or without a reference genome. BMC Bioinformatics. 2011;12:323.
+1) Langmead B, Salzberg S. Fast gapped-read alignment with Bowtie 2. Nature Methods. 2012;9:357-359.
+2) McKenna A, Hanna M, Ba5nks E et al. The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation D3NA sequencing data. Genome Res. 2010;20:1297-303.
+3) Lawrence, M., Stojanov, P., Polak, P. et al. Mutational heterogeneity in cancer and the search for new cancer-associated genes. Nature. 2013;499:14–218.
+4)  Bolger AM, Lohse M, Usadel B. Trimmomatic: a flexible trimmer for Illumina sequence data. Bioinformatics. 2014;30(15):2114-2120.
+5) Dobin A, Davis CA, Schlesinger F, et al. STAR: ultrafast universal RNA-seq aligner. Bioinformatics. 2013;29(1):15-21.
+6) Li B, Dewey CN. RSEM: accurate transcript quantification from RNA-Seq data with or without a reference genome. BMC Bioinformatics. 2011;12:323.
 
 
 
