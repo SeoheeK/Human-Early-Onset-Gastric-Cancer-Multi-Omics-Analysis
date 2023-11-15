@@ -14,7 +14,7 @@ https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA508414&o=acc_s%3Aa
 ## Script file path 생성(ex.nano prefetch_processing.sh  or vi prefetch_processing.sh) 
 
 #-------------------------------------------------------------------------------------------------
-# Sbatch Script Code 작성
+# prefetch_processing.sh 생성
 #-------------------------------------------------------------------------------------------------
 
 #!/bin/bash

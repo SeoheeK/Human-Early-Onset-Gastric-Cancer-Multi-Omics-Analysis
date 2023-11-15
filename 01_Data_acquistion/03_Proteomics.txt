@@ -11,14 +11,9 @@ wget https://raw.githubusercontent.com/esacinc/PDC-Public/master/tools/downloadP
 wget -O proteome.csv "https://docs.google.com/spreadsheets/d/1l5vG3N1zcpCVizeCmkybHeqoPp8uFfKrnbrqilx1kXA/gviz/tq?tqx=out:csv"# Sbatch Script Code 작성
 
 #-------------------------------------------------------------------------------------------------
-# prefetch protein.sh 
+# prefetch_processing.sh 생성
 #-------------------------------------------------------------------------------------------------
 
-
-
-#-------------------------------------------------------------------------------------------------
-# Sbatch로 file 가져오기
-#-------------------------------------------------------------------------------------------------
 #!/bin/bash
 
 #SBATCH -J prefetch_protein #작업이름
@@ -28,12 +23,13 @@ wget -O proteome.csv "https://docs.google.com/spreadsheets/d/1l5vG3N1zcpCVizeCmk
 #SBATCH -o prefetch_protein.%j.out 
 #SBATCH -e prefetch_protein.%j.err
 
-sratoolkit.3.0.6-ubuntu64/bin/prefetch --option-file filename.txt
+PDC-Public/prefetch --option-file filename.txt
 date; 
 
 #-------------------------------------------------------------------------------------------------
-
 # Sbatch 실행
+#-------------------------------------------------------------------------------------------------
+
 sbatch prefetch_processing.sh  
 
 # 실행확인코드
