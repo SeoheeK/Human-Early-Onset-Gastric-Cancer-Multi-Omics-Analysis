@@ -20,7 +20,7 @@ Clustering analyses were executed on the filtered samples, as outlined in the fi
 
 Molecular signatures defining the subtypes through clustering were identified. Initially, we compared the log2(fold-change) in the subtype to those in other subtypes using a t-test, and we selected molecules with a p-value or adjusted p-value <0.05. We applied additional filtering criteria, retaining molecules that met the following conditions: 1) median within the subtype > 0, 2) median in the remaining patients < 0.
 
-## Integrative clustering
+## Integrative clustering] 
 
 Integrative clustering was conducted based on the results obtained from molecular subtyping, employing ConsensusClusterPlus (v.1.64.0)14). Initially, each subtype was transformed into an indicator vector, where '1' represented samples belonging to the subtype, and '0' denoted samples that did not belong to it. Four types of data were consolidated into a single indicator matrix. The clustering was performed using sample resampling at an 80% rate, with 1000 iterations of hierarchical clustering and the Pearson correlation as the dissimilarity measure. 
 
