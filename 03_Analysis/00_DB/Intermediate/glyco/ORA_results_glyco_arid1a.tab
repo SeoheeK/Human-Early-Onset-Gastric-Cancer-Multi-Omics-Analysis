@@ -1,0 +1,9 @@
+p-value	q-value	pathway	source	external_id	members_input_overlap	members_input_overlap_geneids	size	effective_size
+0.000196974658126	0.0037425185044	Axon guidance - Homo sapiens (human)	KEGG	path:hsa04360	PLXNB2; EPHB3; EFNA5; ITGB1	2049; 23654; 3688; 1946	182	182
+0.00101193933361	0.00658534956925	nfkb activation by nontypeable hemophilus influenzae	BioCarta	nthipathway	MUC5AC; MUC2	4583; 4586	29	29
+0.00103979203725	0.00658534956925	Platelet activation - Homo sapiens (human)	KEGG	path:hsa04611	ITGB1; STIM1; VWF	3688; 6786; 7450	124	124
+0.00182870171163	0.00746183964543	EPHB forward signaling	PID	ephbfwdpathway	EPHB3; EFNA5	1946; 2049	39	39
+0.00203325194658	0.00746183964543	PI3K-Akt signaling pathway	Wikipathways	WP4172	ITGB1; VWF; FLT3LG; EFNA5	2323; 7450; 1946; 3688	340	339
+0.00235637041435	0.00746183964543	PI3K-Akt signaling pathway - Homo sapiens (human)	KEGG	path:hsa04151	ITGB1; VWF; FLT3LG; EFNA5	2323; 7450; 3688; 1946	354	353
+0.00515403018595	0.0139895105047	Beta1 integrin cell surface interactions	PID	integrin1_pathway	ITGB1; COL7A1	1294; 3688	66	66
+0.0090002030077	0.0213754821433	ECM-receptor interaction - Homo sapiens (human)	KEGG	path:hsa04512	ITGB1; VWF	3688; 7450	88	88

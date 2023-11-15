@@ -1,0 +1,81 @@
+patientnum,CDH1,TP53,MUC5B,ARID1A,BANP,RHOA
+N149T150,Frame shift,0,0,0,0,0
+N249T250,Frame shift,0,0,Nonsense,0,0
+N211T212,In frame Indel,Missense,Missense,Frame shift,0,0
+N115T116,Missense,0,Missense,0,Missense,0
+N29T30,Missense,0,0,0,0,0
+N17T18,Missense,0,0,0,0,0
+N189T190,Missense,0,0,0,0,0
+N137T138,Missense,0,0,0,0,0
+N27T28,Missense,0,Missense,0,0,0
+N95T96,Missense,0,0,0,0,0
+N135T136,Missense,0,0,0,0,0
+N13T14,Missense,Nonsense,0,0,0,0
+N117T118,Missense,Missense,0,Nonsense,0,Missense
+N31T32,Missense,Missense,0,0,0,0
+N91T92,Missense,Missense,0,0,0,0
+N179T180,Missense,0,0,0,0,0
+N145T146,Missense,0,0,0,0,0
+N53T54,Nonsense,Frame shift,0,0,0,0
+N215T216,Nonsense,0,0,0,0,0
+N221T222,Splice site,0,Missense,0,0,0
+N271T272,Splice site,0,Missense,0,Missense,0
+N37T38,Splice site,Missense,0,0,0,0
+N201T202,Splice site,Missense,0,0,0,0
+N61T62,Splice site,0,0,0,0,0
+N5759T5760,Splice site,0,Missense,0,0,0
+N253T254,0,Frame shift,0,0,0,0
+N247T248,0,Missense,0,0,0,0
+N209T210,0,Missense,0,0,0,0
+N203T204,0,Missense,0,0,0,0
+N165T166,0,Missense,0,0,0,0
+N35T36,0,Missense,0,0,0,0
+N23T24,0,Missense,0,0,0,0
+N111T112,0,Missense,0,0,Missense,Missense
+N217T218,0,Missense,Missense,0,0,0
+N45T46,0,Missense,Missense,0,Missense,0
+N2397T2398,0,Missense,0,0,0,0
+N63T64,0,Nonsense,0,0,0,Missense
+N181T182,0,Nonsense,Missense,0,0,0
+N5373T5374,0,Nonsense,0,0,0,0
+N155T156,0,0,Missense,Nonsense,0,0
+N123T124,0,0,Missense,0,Missense,0
+N15T16,0,0,Missense,0,0,0
+N119T120,0,0,Missense,0,0,0
+N191T192,0,0,Missense,0,0,0
+N199T200,0,0,Missense,0,0,0
+N219T220,0,0,0,Frame shift,0,0
+N231T232,0,0,0,Missense,0,0
+N33T34,0,0,0,Nonsense,0,0
+N39T40,0,0,0,Nonsense,0,0
+N65T66,0,0,0,Nonsense,0,0
+N195T196,0,0,0,0,Missense,0
+N213T214,0,0,0,0,0,Missense
+N5357T5358,0,0,0,0,0,Missense
+N67T68,0,0,0,0,0,0
+N5263T5264,0,0,0,0,0,0
+N193T194,0,0,0,0,0,0
+N257T258,0,0,0,0,0,0
+N143T144,0,0,0,0,0,0
+N87T88,0,0,0,0,0,0
+N139T140,0,0,0,0,0,0
+N55T56,0,0,0,0,0,0
+N173T174,0,0,0,0,0,0
+N21T22,0,0,0,0,0,0
+N89T90,0,0,0,0,0,0
+N59T60,0,0,0,0,0,0
+N161T162,0,0,0,0,0,0
+N5381T5382,0,0,0,0,0,0
+N131T132,0,0,0,0,0,0
+N269T270,0,0,0,0,0,0
+N167T168,0,0,0,0,0,0
+N235T236,0,0,0,0,0,0
+N147T148,0,0,0,0,0,0
+N267T268,0,0,0,0,0,0
+N163T164,0,0,0,0,0,0
+N41T42,0,0,0,0,0,0
+N43T44,0,0,0,0,0,0
+N169T170,0,0,0,0,0,0
+N25T26,0,0,0,0,0,0
+N225T226,0,0,0,0,0,0
+N265T266,0,0,0,0,0,0

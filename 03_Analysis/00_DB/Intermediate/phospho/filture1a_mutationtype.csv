@@ -1,0 +1,54 @@
+patientnum,MUC5B,ARID1A,BANP,RHOA,CDH1,TP53
+N13T14,0,0,0,0,Missense,Nonesense
+N15T16,Missense,0,0,0,0,0
+N17T18,0,0,0,0,Missense,0
+N23T24,0,0,0,0,0,Missense
+N27T28,Missense,0,0,0,Missense,0
+N29T30,0,0,0,0,Missense,0
+N31T32,0,0,0,0,Missense,Missense
+N33T34,0,Nonesense,0,0,0,0
+N35T36,0,0,0,0,0,Missense
+N37T38,0,0,0,0,Splice site,Missense
+N39T40,0,Nonesense,0,0,0,0
+N45T46,Missense,0,Missense,0,0,Missense
+N53T54,0,0,0,0,Nonesense,Frame shift
+N61T62,0,0,0,0,Splice site,0
+N63T64,0,0,0,Missense,0,Nonesense
+N65T66,0,Nonesense,0,0,0,0
+N91T92,0,0,0,0,Missense,Missense
+N95T96,0,0,0,0,Missense,0
+N111T112,0,0,Missense,Missense,0,Missense
+N115T116,Missense,0,Missense,0,Missense,0
+N117T118,0,Nonesense,0,Missense,Missense,Missense
+N119T120,Missense,0,0,0,0,0
+N123T124,Missense,0,Missense,0,0,0
+N135T136,0,0,0,0,Missense,0
+N137T138,0,0,0,0,Missense,0
+N145T146,0,0,0,0,Missense,0
+N149T150,0,0,0,0,Frame shift,0
+N155T156,Missense,Nonesense,0,0,0,0
+N165T166,0,0,0,0,0,Missense
+N179T180,0,0,0,0,Missense,0
+N181T182,Missense,0,0,0,0,Nonesense
+N189T190,0,0,0,0,Missense,0
+N191T192,Missense,0,0,0,0,0
+N195T196,0,0,Missense,0,0,0
+N199T200,Missense,0,0,0,0,0
+N201T202,0,0,0,0,Splice site,Missense
+N203T204,0,0,0,0,0,Missense
+N209T210,0,0,0,0,0,Missense
+N211T212,Missense,Frame shift,0,0,In frame Indel,Missense
+N213T214,0,0,0,Missense,0,0
+N215T216,0,0,0,0,Nonesense,0
+N217T218,Missense,0,0,0,0,Missense
+N219T220,0,Frame shift,0,0,0,0
+N221T222,Missense,0,0,0,Splice site,0
+N231T232,0,Missense,0,0,0,0
+N247T248,0,0,0,0,0,Missense
+N249T250,0,Nonesense,0,0,Frame shift,0
+N253T254,0,0,0,0,0,Frame shift
+N271T272,Missense,0,Missense,0,Splice site,0
+N2397T2398,0,0,0,0,0,Missense
+N5357T5358,0,0,0,Missense,0,0
+N5373T5374,0,0,0,0,0,Nonesense
+N5759T5760,Missense,0,0,0,Splice site,0
