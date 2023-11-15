@@ -1,4 +1,5 @@
 # Preprocessing
+This portion of the code has been implemented by citing the work of another individual, and as such, we will keep it private.
 
 ## WES-Preprocessing
 
@@ -13,7 +14,7 @@ The .sra files were subjected to fasterq-dump using SRA Toolkit (v3.0.7). Trimmi
  All LC-MS/MS (Liquid Chromatography Tandem Mass Spectrometry) data were processed with Post-Experiment Monoisotopic Mass Refinement (PE-MMR) for precursor mass correction and refinement. Tandem Mass Spectrometry (MS/MS) data for tissue pairs were analyzed for peptide identification using the MS-GF+ search engine (v.9387) with composite database (DB) of UniProt DB. Subsequently, ResultMerger (v5.4.16) was employed to consolidate multiple .mzid files into a single result file. PIPRegister (v0.6) was utilized to calculate Precursor Ion Purity (PIP) from mzXML files, measuring the confidence of scans. PSMs (Peptide Spectrum Matches) were then validated by filtering based on a PIP threshold (PIP > 70). Quantile normalization was applied, followed by the computation of Normalized Fold Changes. For additional analysis, PSMs with a False Discovery Rate (FDR) less than 0.01 were used. 
 
 ## Citation
-If you want more detailed information about the preprocessing steps, please refer to the parent project 'Proteogenomic Characterization of Human Early-Onset Gastric Cancer' which serves as the foundation for this project. (https://www.cell.com/cancer-cell/fulltext/S1535-6108(18)30574-9#secsectitle0080)
+If you want more detailed information about the preprocessing steps, please refer to the parent project 'Proteogenomic Characterization of Human Early-Onset Gastric Cancer' which serves as the foundation for this project(https://www.cell.com/cancer-cell/fulltext/S1535-6108(18)30574-9#secsectitle0080).
 
 
 ### Reference
