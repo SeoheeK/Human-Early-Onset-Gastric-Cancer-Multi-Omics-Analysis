@@ -1,9 +1,14 @@
+#-------------------------------------------------------------------------------------------------
+# 02_Pathway_Analysis_of_Featured_Phosphopeptides_Correlated_with_Mutation_Status_Analysis
+#-------------------------------------------------------------------------------------------------
+
 """
 purpose:
 Phosphorylated peptides whose levels were upregulated in GC samples 
 with nonsynonymous somatic SNVs in ARID1A, CDH1, and RHOA. 
 
 """
+
 import pandas as pd
 from scipy import stats
 import qnorm

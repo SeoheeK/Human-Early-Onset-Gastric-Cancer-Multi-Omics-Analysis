@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------------------
-# 02_Phosphopeptide_Signatures_Based_on_Representative_Mutation_Status_Visualization
+# 02 Correlation between Somatic Mutations and Phosphopeptides
 #-------------------------------------------------------------------------------------------------
 
 #load package 
