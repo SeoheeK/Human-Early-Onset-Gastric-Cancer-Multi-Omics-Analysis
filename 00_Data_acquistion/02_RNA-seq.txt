@@ -11,9 +11,10 @@ wget --output-document sratoolkit.tar.gz https://ftp-trace.ncbi.nlm.nih.gov/sra/
 # SRA 홈페이지 > PRJNA508414 검색 > Send results to Run selector 클릭 > Accession List 클릭 > SRR_Acc_List.txt > 전체 내용 복사 > 서버에 vi로 파일 생성
 https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA508414&o=acc_s%3Aa
 
+## Script file path 생성(ex.nano prefetch_processing.sh  or vi prefetch_processing.sh) 
+
 #-------------------------------------------------------------------------------------------------
 # Sbatch Script Code 작성
-## Script file path 생성(ex.nano prefetch_processing.sh  or vi prefetch_processing.sh) 
 #-------------------------------------------------------------------------------------------------
 
 #!/bin/bash
@@ -24,8 +25,6 @@ https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA508414&o=acc_s%3Aa
 #SBATCH -n 2 #몇개씩 돌릴껀가
 #SBATCH -o prefetch_mRNA.%j.out 
 #SBATCH -e prefetch_mRNA.%j.err
-
-
 
 sratoolkit.3.0.6-ubuntu64/bin/prefetch --option-file filename.txt
 date; 
