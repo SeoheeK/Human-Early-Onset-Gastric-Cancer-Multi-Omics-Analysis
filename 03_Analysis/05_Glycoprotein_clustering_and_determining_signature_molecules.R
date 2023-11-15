@@ -1,4 +1,6 @@
-### 0. Packages installation ###
+#----------------------------------------------------------------------------#
+### Packages installation ###
+#----------------------------------------------------------------------------#
 
 
 if (!require("BiocManager", quietly = TRUE))
@@ -602,7 +604,6 @@ rownames(indi_glyco)[1:2] <- c("Glyco2", "Glyco1")
 
 # indicator matrix를 csv로 저장
 write.csv(indi_glyco, "indi_glyco.csv", row.names = TRUE)
-
 
 
 

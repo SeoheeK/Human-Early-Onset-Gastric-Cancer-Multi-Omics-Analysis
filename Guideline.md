@@ -1,10 +1,10 @@
 # Guideline for Users
 
-## Data Acquistion
+## 01 Data Acquistion
 Exome and mRNA sequencing data were obtained from the NCBI SRA (PRJNA505380 and PRJNA508414) database(https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE122401)
 Global, phospho-, and N-glycoproteomics data were retrieved from the CPTAC data portal (PDC000214~216)(https://pdc.cancer.gov/pdc/browse/filters/pdc_study_id:PDC000214%7CPDC000215%7CPDC000216).
 
-## Data Pre-Processing
+## 02 Data Pre-Processing
 ### Pre-processing
 
 #### WES-Preprocessing
@@ -23,7 +23,7 @@ The .sra files were subjected to fasterq-dump using SRA Toolkit (v3.0.7). Trimmi
 If you want more detailed information about the preprocessing steps, please refer to the parent project 'Proteogenomic Characterization of Human Early-Onset Gastric Cancer' which serves as the foundation for this project. (https://www.cell.com/cancer-cell/fulltext/S1535-6108(18)30574-9#secsectitle0080)
 
 
-## Data Analysis
+## 03 Data Analysis
 ### Correlation profiles and pathway analysis 
 
 #### (1) Mutations & modified peptides 

@@ -1,1 +1,0 @@
-https://github.com/bynjh007/laidd_snakemake_rnaseq/
