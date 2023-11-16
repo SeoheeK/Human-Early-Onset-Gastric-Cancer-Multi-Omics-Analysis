@@ -52,7 +52,7 @@ library(colorRamp2)
 
 # make dataset matrix of proteomics
 # 파일 경로 지정
-file_path <- "C:/Users/admin/Desktop/LAIDD/RNAseq/Processed proteomics data/Proteomics/glycopeptide_change.csv"
+file_path <- "./03_Analysis/00_DB/Proteomics/glycopeptide_change.csv"
 
 # 행렬로 데이터 불러오기
 data_frame <- read.csv(file_path, header = TRUE, stringsAsFactors=FALSE)
@@ -514,14 +514,14 @@ col_fun = colorRamp2(c(-2, 0, 2), c("green", "black", "red"))
 
 # Annotation 지정 > 위에서 셋팅했던 csv 파일로부터 불러옴
 # Clustering annotation (column)
-anno_C = read.csv("C:/Users/admin/Desktop/LAIDD/RNAseq/Clustering/Subgroup/glyco_subgroup_cluster.csv")
+anno_C = read.csv("./03_Analysis/00_DB/RNAseq/Clustering/Subgroup/glyco_subgroup_cluster.csv")
 ha_C=HeatmapAnnotation(df = anno_C, which="col", col = list(
   Cluster = c("GLYCO1" = "blueviolet", "GLYCO2" = "coral1")),
   show_annotation_name = FALSE, show_legend = FALSE
 )
 
 # Signature annotation (row)
-anno_S = read.csv("C:/Users/admin/Desktop/LAIDD/RNAseq/Clustering/Subgroup/glyco_subgroup_signature.csv")
+anno_S = read.csv("./03_Analysis/00_DB/RNAseq/Clustering/Subgroup/glyco_subgroup_signature.csv")
 ha_S=HeatmapAnnotation(df = anno_S, which="row", col = list(
   Signature = c("Glyco1" = "blueviolet", "Glyco2" = "coral1")),
   show_annotation_name = FALSE, show_legend = FALSE
@@ -552,7 +552,7 @@ col_fun2 = colorRamp2(c(0, 0.5, 1), c("blue", "white", "red"))
 
 # Annotation 지정 > 위에서 셋팅했던 csv 파일로부터 불러옴
 # Consensus annotation (column)
-anno_A = read.csv("C:/Users/admin/Desktop/LAIDD/RNAseq/Clustering/Subgroup/glyco_subgroup_consensus.csv")
+anno_A = read.csv("./03_Analysis/00_DB/RNAseq/Clustering/Subgroup/glyco_subgroup_consensus.csv")
 ha_A=HeatmapAnnotation(df = anno_A, which="col", col = list(
   Consensus = c("GLYCO1" = "blueviolet", "GLYCO2" = "coral1")),
   show_annotation_name = FALSE, show_legend = FALSE
