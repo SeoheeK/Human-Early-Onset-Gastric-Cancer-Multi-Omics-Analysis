@@ -9,7 +9,7 @@ Global, phospho-, and N-glycoproteomics data were retrieved from the CPTAC data 
 
 #### WES-Preprocessing
 
-The exome sequencing data were aligned to the human GRCh38 reference genome using Bowtie 2 (v2.5.2)(1). Low-quality bases and PCR duplicates were removed. Realignment and recalibration were performed using GATK4 (v4.4.0.0)(2). SNV candidates were identified in both tumor and control samples. The MutSigCV (v1.41)(3) tool was utilized to discover significantly mutated genes among somatic SNVs in the 76 microsatellite-stable EOGC patients. 
+The exome sequencing data were aligned to the human GRCh38 reference genome using Bowtie 2 (v2.5.2)(1). Low-quality bases and PCR duplicates were removed by using Trimmomatic(v0.39)(2). Realignment and recalibration were performed using GATK4 (v4.4.0.0)(3). SNV candidates were identified in both tumor and control samples. To identify somatic mutations, we used Mutect (v1.1.7)(4) and Strelka (v1.0.7)(5). The MutSigCV (v1.41)(6) tool was utilized to discover significantly mutated genes among somatic SNVs in the 76 microsatellite-stable EOGC patients. 
 
 #### RNA-seq Preprocessing
 
@@ -17,10 +17,10 @@ The .sra files were subjected to fasterq-dump using SRA Toolkit (v3.0.7). Trimmi
 
 #### Proteomics-preprocessing
 
- All LC-MS/MS (Liquid Chromatography Tandem Mass Spectrometry) data were processed with Post-Experiment Monoisotopic Mass Refinement (PE-MMR) for precursor mass correction and refinement. Tandem Mass Spectrometry (MS/MS) data for tissue pairs were analyzed for peptide identification using the MS-GF+ search engine (v.9387) with composite database (DB) of UniProt DB. Subsequently, ResultMerger (v5.4.16) was employed to consolidate multiple .mzid files into a single result file. PIPRegister (v0.6) was utilized to calculate Precursor Ion Purity (PIP) from mzXML files, measuring the confidence of scans. PSMs (Peptide Spectrum Matches) were then validated by filtering based on a PIP threshold (PIP > 70). Quantile normalization was applied, followed by the computation of Normalized Fold Changes. For additional analysis, PSMs with a False Discovery Rate (FDR) less than 0.01 were used. 
+All LC-MS/MS (Liquid Chromatography Tandem Mass Spectrometry) data were processed with Post-Experiment Monoisotopic Mass Refinement (PE-MMR) for precursor mass correction and refinement. Tandem Mass Spectrometry (MS/MS) data for tissue pairs were analyzed for peptide identification using the MS-GF+ search engine (v.9387) with composite database (DB) of UniProt DB. Subsequently, ResultMerger (v5.4.16) was employed to consolidate multiple .mzid files into a single result file. PIPRegister (v0.6) was utilized to calculate Precursor Ion Purity (PIP) from mzXML files, measuring the confidence of scans. PSMs (Peptide Spectrum Matches) were then validated by filtering based on a PIP threshold (PIP > 70). Quantile normalization was applied, followed by the computation of Normalized Fold Changes. For additional analysis, PSMs with a False Discovery Rate (FDR) less than 0.01 were used. 
 
 #### Citation
-If you want more detailed information about the preprocessing steps, please refer to the parent project 'Proteogenomic Characterization of Human Early-Onset Gastric Cancer' which serves as the foundation for this project. (https://www.cell.com/cancer-cell/fulltext/S1535-6108(18)30574-9#secsectitle0080)
+If you want more detailed information about the preprocessing steps, please refer to the parent project 'Proteogenomic Characterization of Human Early-Onset Gastric Cancer' which serves as the foundation for this project (https://www.cell.com/cancer-cell/fulltext/S1535-6108(18)30574-9#secsectitle0080).
 
 
 ## 03 Data Analysis
