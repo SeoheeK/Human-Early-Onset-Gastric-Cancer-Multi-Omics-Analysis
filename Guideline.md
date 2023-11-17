@@ -40,7 +40,7 @@ Enrichment analysis encompassed KEGG pathways and was executed on two separate s
 
 #### (1) Clustering by each dataset
 
-Clustering analyses were executed on the filtered samples, as outlined in the figure. Following quantile normalization, only molecules falling within the top 10-20% of MADs were then subjected to CNMF clustering, utilizing CancerSubtypes (v1.26.0)(7). The ultimate number of clusters was established based on the value of 'k' that yielded the most stable k-cluster decomposition.
+Clustering analyses were executed on the filtered samples, as outlined in the figure. Following quantile normalization, only molecules falling within the top 10-20% of MADs were then subjected to CNMF clustering, utilizing CancerSubtypes (v1.26.0)(8). The ultimate number of clusters was established based on the value of 'k' that yielded the most stable k-cluster decomposition.
 
 #### (2) Differentially expressed molecules
 
@@ -48,7 +48,7 @@ Molecular signatures defining the subtypes through clustering were identified. I
 
 #### (3) Integrative clustering
 
-Integrative clustering was conducted based on the results obtained from molecular subtyping, employing ConsensusClusterPlus (v.1.64.0)(8). Initially, each subtype was transformed into an indicator vector, where '1' represented samples belonging to the subtype, and '0' denoted samples that did not belong to it. Four types of data were consolidated into a single indicator matrix. The clustering was performed using sample resampling at an 80% rate, with 1000 iterations of hierarchical clustering and the Pearson correlation as the dissimilarity measure.
+Integrative clustering was conducted based on the results obtained from molecular subtyping, employing ConsensusClusterPlus (v.1.64.0)(9). Initially, each subtype was transformed into an indicator vector, where '1' represented samples belonging to the subtype, and '0' denoted samples that did not belong to it. Four types of data were consolidated into a single indicator matrix. The clustering was performed using sample resampling at an 80% rate, with 1000 iterations of hierarchical clustering and the Pearson correlation as the dissimilarity measure.
 
 
 ### Reference
@@ -60,4 +60,5 @@ Integrative clustering was conducted based on the results obtained from molecula
 5) Dobin A, Davis CA, Schlesinger F, et al. STAR: ultrafast universal RNA-seq aligner. Bioinformatics. 2013;29(1):15-21.
 6) Li B, Dewey CN. RSEM: accurate transcript quantification from RNA-Seq data with or without a reference genome. BMC Bioinformatics. 2011;12:323.
 7) Huang DW, Sherman BT, Tan Q, et al. The DAVID Gene Functional Classification Tool: a novel biological module-centric algorithm to functionally analyze large gene lists. Genome Biol. 2007;8(9):R183. 
-8) Wilkerson MD, Hayes DN. ConsensusClusterPlus: a class discovery tool with confidence assessments and item tracking. Bioinformatics. 2010;26(12):1572-1573.
+8) Taosheng Xu, Thuc Duy Le et al, CancerSubtypes: an R/Bioconductor package for molecular cancer subtype identification, validation and visualization, Bioinformatics, Volume 33, Issue 19, October 2017, Pages 3131–3133, https://doi.org/10.1093/bioinformatics/btx378
+9) Wilkerson MD, Hayes DN. ConsensusClusterPlus: a class discovery tool with confidence assessments and item tracking. Bioinformatics. 2010;26(12):1572-1573.
